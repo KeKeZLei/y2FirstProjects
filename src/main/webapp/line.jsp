@@ -33,7 +33,7 @@
                     <div class="layui-col-md3">
                         <label class="layui-form-label">线路编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="lineno" required
+                            <input type="text" name="linename" required
                                    lay-verify="required|question_content" placeholder="请输入姓名" autocomplete="off"
                                    class="layui-input">
                         </div>
@@ -58,50 +58,29 @@
                  style="display: none; width: 420px; padding-top: 20px;">
                 <form class="layui-form" action="">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">姓名</label>
+                        <label class="layui-form-label">出发点</label>
                         <div class="layui-input-block">
-                            <input type="text" name="userName" required
-                                   lay-verify="required|question_content" placeholder="请输入姓名" autocomplete="off"
-                                   class="layui-input">
+                            <select name="st">
+                                <option>--请选择--</option>
+                                <c:forEach items="${list}" var="list">
+                                    <option>${list}</option>
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
+                    <p></p>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">性别</label>
+                        <label class="layui-form-label">终点站</label>
                         <div class="layui-input-block">
-                            <input type="text" name="sex" required lay-verify="required|answer"
-                                   placeholder="请输入性别" autocomplete="off" class="layui-input">
+                            <select name="st1">
+                                <option>--请选择--</option>
+                                <c:forEach items="${list}" var="list">
+                                    <option>${list}</option>
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">年龄</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="age" required lay-verify="required|answer"
-                                   placeholder="请输入年龄" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">生日</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="birthday" name="birthday" required
-                                   lay-verify="required" placeholder="请输入生日" autocomplete="off"
-                                   class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">工资</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="sal" required lay-verify="required|answer"
-                                   placeholder="请输入工资" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">部门名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="deptName" required lay-verify="required|answer"
-                                   placeholder="请输入部门名称" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </form>
+                   </form>
             </div>
             <div id="updateDialog"
                  style="display: none; width: 420px; padding-top: 20px;">
@@ -184,7 +163,7 @@
         $("#search-btn").bind("click",function(){
             table.reload("table",{
                 where:{
-                    lineno:$.trim($("#selectM input[name=lineno]").val()),
+                    userInfoName:$.trim($("#selectM input[name=linename]").val()),
 
                 },
                 page:{
@@ -210,22 +189,16 @@
                     },
                     yes: function (layero, index) {
                         form.on('submit(add)', function (data) {
-                            var userName = $("#addDialog input[name=userName]").val();
-                            var sex = $("#addDialog input[name=sex]").val();
-                            var age = $("#addDialog input[name=age]").val();
-                            var birthday = $("#addDialog input[name=birthday]").val();
-                            var deptName = $("#addDialog input[name=deptName]").val();
-                            var sal = $("#addDialog input[name=sal]").val();
+
+                            var pname = $("#addDialog select[name=st]").val();
+                            var pnames = $("#addDialog select[name=st1]").val();
                             $.ajax({
-                                url: "<%=path%>/user_addUserInfo.action",
+                                url: "<%=path%>/line_pro.action",
                                 type: "post",
                                 data: {
-                                    userName: userName,
-                                    sex: sex,
-                                    age: age,
-                                    birthday: birthday,
-                                    deptName: deptName,
-                                    sal: sal
+
+                                    pname: pname,
+                                    pname: pnames,
                                 },
                                 dataType: "json",
                                 success: function (data) {

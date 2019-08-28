@@ -25,9 +25,11 @@ public class LineAction extends ActionSupport {
     private int page = 1;
     private int limit = 10;
     private String userInfoName;
+
     public void setUserInfoName(String userInfoName) {
         this.userInfoName = userInfoName;
     }
+
     public void setPage(int page) {
         this.page = page;
     }
@@ -35,17 +37,14 @@ public class LineAction extends ActionSupport {
         this.limit = limit;
     }
 
-    public int getLineno() {
-        return lineno;
-    }
-
     public String page() throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);
         map.put("limit", limit);
-        System.out.println(lineno);
-        if(lineno != 0){
-            map.put("lineno","%"+lineno+"%");
+        System.out.println("线路编号："+userInfoName);
+        if(userInfoName != null && !userInfoName.equals("")){
+            System.out.println("模糊查询");
+            map.put("userInfoName","%"+userInfoName+"%");
         }
         System.out.println("数据1"+map);
         Map<String, Object> map1 = this.lineService.findMap(map);

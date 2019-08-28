@@ -5,16 +5,16 @@
 <hibernate-mapping package="com.accp.pojo" auto-import="true">
 
     <class name="Line" table="line">
-        <id name="lineid">
+        <id name="lineid" type="java.lang.Integer">
             <column name="LINEID" sql-type="int(11)"/>
         </id>
-        <property name="lineno">
+        <property name="lineno" type="java.lang.Integer">
             <column name="LINENO" sql-type="int(11)"/>
         </property>
-        <property name="linename">
+        <property name="linename" type="java.lang.String">
             <column name="LINENAME" sql-type="varchar(20)" length="20"/>
         </property>
-        <property name="length">
+        <property name="length" type="java.lang.Integer">
             <column name="LENGTH" sql-type="int(11)"/>
         </property>
     </class>

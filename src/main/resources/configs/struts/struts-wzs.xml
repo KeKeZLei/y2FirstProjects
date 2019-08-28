@@ -45,5 +45,8 @@
             <result>line.jsp</result>
             <result name="input">index.jsp</result>
         </action>
+        <action name="line_pro" class="provinceAction" method="proAll">
+            <result>/line.jsp</result>
+        </action>
     </package>
 </struts>

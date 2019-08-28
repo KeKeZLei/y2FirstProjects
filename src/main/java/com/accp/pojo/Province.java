@@ -40,4 +40,16 @@ public class Province {
         result = 31 * result + (pname != null ? pname.hashCode() : 0);
         return result;
     }
+
+    public Province() {
+    }
+
+    public Province(int provinced, String pname) {
+        this.provinced = provinced;
+        this.pname = pname;
+    }
+
+    public Province(String pname) {
+        this.pname = pname;
+    }
 }

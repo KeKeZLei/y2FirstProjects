@@ -52,9 +52,7 @@
     <tx:advice id="MyAdvice" transaction-manager="mrAdvice">
         <tx:attributes>
             <tx:method name="select*" read-only="true"/>
-            <tx:method name="find*" read-only="true"/>
             <tx:method name="get*" read-only="true"/>
-            <tx:method name="query*" read-only="true"/>
             <tx:method name="load*" read-only="true"/>
             <tx:method name="cx*" read-only="true"/>
             <tx:method name="add*" propagation="REQUIRED"/>

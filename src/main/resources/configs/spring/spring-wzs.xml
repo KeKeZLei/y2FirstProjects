@@ -24,4 +24,15 @@
         <property name="lineService" ref="lineService"></property>
     </bean>
 
+
+    <!--Province 配置-->
+    <bean id="provinceDao" class="com.accp.dao.impl.ProvinceDaoImpl">
+        <property name="hibernateTemplate" ref="trMagger"></property>
+    </bean>
+    <bean id="proService" class="com.accp.service.impl.ProvinceServiceImpl">
+        <property name="provinceDao" ref="provinceDao"></property>
+    </bean>
+    <bean id="provinceAction" class="com.accp.action.ProvinceAction">
+        <property name="provinceService" ref="proService"></property>
+    </bean>
 </beans>

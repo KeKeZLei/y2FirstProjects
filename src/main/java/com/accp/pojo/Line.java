@@ -1,25 +1,64 @@
 package com.accp.pojo;
 
 
-public class Line {
-    private int lineid;
-    private int lineno;
-    private String linename;
-    private int length;
+import java.io.Serializable;
+import java.util.Objects;
 
-    public int getLineid() {
+public class Line implements Serializable {
+    private Integer lineid;
+    private Integer lineno;
+    private String linename;
+    private Integer length;
+
+    @Override
+    public String toString() {
+        return "Line{" +
+                "lineid=" + lineid +
+                ", lineno=" + lineno +
+                ", linename='" + linename + '\'' +
+                ", length=" + length +
+                '}';
+    }
+
+    public Line() {
+    }
+
+    public Line(Integer lineid, Integer lineno, String linename, Integer length) {
+        this.lineid = lineid;
+        this.lineno = lineno;
+        this.linename = linename;
+        this.length = length;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Line line = (Line) o;
+        return Objects.equals(lineid, line.lineid) &&
+                Objects.equals(lineno, line.lineno) &&
+                Objects.equals(linename, line.linename) &&
+                Objects.equals(length, line.length);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lineid, lineno, linename, length);
+    }
+
+    public Integer getLineid() {
         return lineid;
     }
 
-    public void setLineid(int lineid) {
+    public void setLineid(Integer lineid) {
         this.lineid = lineid;
     }
 
-    public int getLineno() {
+    public Integer getLineno() {
         return lineno;
     }
 
-    public void setLineno(int lineno) {
+    public void setLineno(Integer lineno) {
         this.lineno = lineno;
     }
 
@@ -31,35 +70,11 @@ public class Line {
         this.linename = linename;
     }
 
-    public int getLength() {
+    public Integer getLength() {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(Integer length) {
         this.length = length;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Line line = (Line) o;
-
-        if (lineid != line.lineid) return false;
-        if (lineno != line.lineno) return false;
-        if (length != line.length) return false;
-        if (linename != null ? !linename.equals(line.linename) : line.linename != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = lineid;
-        result = 31 * result + lineno;
-        result = 31 * result + (linename != null ? linename.hashCode() : 0);
-        result = 31 * result + length;
-        return result;
     }
 }

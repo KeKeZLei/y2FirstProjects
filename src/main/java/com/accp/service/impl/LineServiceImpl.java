@@ -11,10 +11,6 @@ import java.util.Map;
 public class LineServiceImpl implements LineService {
     private LineDao lineDao;
 
-    public LineDao getLineDao() {
-        return lineDao;
-    }
-
     public void setLineDao(LineDao lineDao) {
         this.lineDao = lineDao;
     }
@@ -24,7 +20,7 @@ public class LineServiceImpl implements LineService {
         Map<String, Object> map = new HashMap<>();
         try {
             List<Line> list = this.lineDao.findlist(map1);
-            map.put("data", list);
+            map.put("data",list);
             long count = this.lineDao.count(map1);
             map.put("count", count);
             map.put("code", 0);

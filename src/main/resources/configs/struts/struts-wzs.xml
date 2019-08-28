@@ -41,6 +41,9 @@
             <!--<interceptor-ref name="defaultStack" />-->
         </action>
         <action name="sessionInvalidate" class="usersAction" method="sessionInvalidate"></action>
-        <action name=""></action>
+        <action name="line_page" class="lineAction" method="page">
+            <result>line.jsp</result>
+            <result name="input">index.jsp</result>
+        </action>
     </package>
 </struts>

@@ -3,93 +3,78 @@ package com.accp.action;
 import com.accp.pojo.Line;
 import com.accp.service.LineService;
 import com.accp.service.UsersService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.ServletActionContext;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LineAction extends ActionSupport {
-    private InputStream it;
-
-    public LineService getLineService() {
-        return lineService;
-    }
+    private LineService lineService;
 
     public void setLineService(LineService lineService) {
         this.lineService = lineService;
     }
-
-    private LineService lineService;
-    private String query;//搜索的值(名称)
-    private String pwd;//搜索的值(密码)
-    private int page; //当前页 ---ui自带
-    private int rows;  //每页显示数 ---ui自带
-
-    public InputStream getIt() {
-        return it;
+    private int page = 1;
+    private int limit = 10;
+    private String userInfoName;
+    public void setUserInfoName(String userInfoName) {
+        this.userInfoName = userInfoName;
     }
-
-    public void setIt(InputStream it) {
-        this.it = it;
-    }
-
-
-    public String getQuery() {
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
     public void setPage(int page) {
         this.page = page;
     }
-
-    public int getRows() {
-        return rows;
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
-    public void setRows(int rows) {
-        this.rows = rows;
+    public int getLineno() {
+        return lineno;
     }
 
-    @Override
-    public String execute() throws Exception {
-        //获取json对象
-        JSONObject jo = new JSONObject();
-        JSONArray ja = new JSONArray();
-        JSONObject jb = null;
-        int count = (page - 1) * rows;
-        int sum = count + rows;
-        List<Line> list = lineService.getLineAll();
-        for(int i = count;i<sum && i<list.size();i++){
-        jb = new JSONObject();
-        jb.put("lineid",list.get(i).getLineid());
-        jb.put("lineno",list.get(i).getLineno());
-        jb.put("linename",list.get(i).getLinename());
-        jb.put("length",list.get(i).getLength());
-        ja.add(jb);
-            System.out.println("jb"+jb);
+    public String page() throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("page", page);
+        map.put("limit", limit);
+        System.out.println(lineno);
+        if(lineno != 0){
+            map.put("lineno","%"+lineno+"%");
         }
-        jo.put("total",list.size());
-        jo.put("rows",ja);
-        it = new ByteArrayInputStream(jo.toString().getBytes("utf-8"));
-        return super.execute();
+        System.out.println("数据1"+map);
+        Map<String, Object> map1 = this.lineService.findMap(map);
+        System.out.println("数据"+map1);
+        String json = JSON.toJSONString(map1);
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setContentType("json/application;charset=utf-8");
+        response.getWriter().print(json);
+        return null;
+    }
+    private int lineid;
+    private int lineno;
+    private String linename;
+
+    public void setLinename(String linename) {
+        this.linename = linename;
+    }
+
+    private  int length;
+
+    public void setLineid(int lineid) {
+        this.lineid = lineid;
+    }
+
+    public void setLineno(int lineno) {
+        this.lineno = lineno;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }

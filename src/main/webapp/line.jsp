@@ -15,7 +15,7 @@
     <base href="<%=basePath%>">
     <title>分页查询</title>
     <link rel="stylesheet" href="layui/css/layui.css">
-    <script src="DataTableExtend.js"></script>
+    <script src="layui/DataTableExtend.js"></script>
     <style type="text/css">
         .layui-table-cell .layui-form-checkbox[lay-skin="primary"] {
             top: 50%;
@@ -31,25 +31,11 @@
             <div class="layui-row">
                 <div class="layui-col-md10 layui-col-md-offset1">
                     <div class="layui-col-md3">
-                        <label class="layui-form-label">姓名</label>
+                        <label class="layui-form-label">线路编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="userName" required
+                            <input type="text" name="lineno" required
                                    lay-verify="required|question_content" placeholder="请输入姓名" autocomplete="off"
                                    class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-col-md3">
-                        <label class="layui-form-label">性别</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="sex" required lay-verify="required|answer"
-                                   placeholder="请输入性别" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-col-md3">
-                        <label class="layui-form-label">部门名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="deptName" required lay-verify="required|answer"
-                                   placeholder="请输入部门名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-col-md3">
@@ -182,25 +168,24 @@
         var element = layui.element;
         table.render({
             elem: "#table",
-            url: "user_page.action",
+            url: "line_page.action",
             limits: [1, 5, 10, 15, 20],
             page: true,
             toolbar: "default",
             defaultToolbar: ['filter', 'print', 'exports'],
             cols: [[
-                {field: 'userId', title: '编号', width: 140, type: "checkbox", sort: true}
-                , {field: 'userName', title: '姓名', width: 130}
-                , {field: 'sex', title: '性别', width: 130}
-                , {field: 'age', title: '年龄', width: 130}
+                {field: 'lineid', title: '线路ID', width: 140, type: "checkbox", sort: true}
+                , {field: 'lineno', title: '线路编号', width: 130}
+                , {field: 'linename', title: '线路名称', width: 130}
+                , {field: 'length', title: '线路里程', width: 130}
 
             ]]
         });
         $("#search-btn").bind("click",function(){
             table.reload("table",{
                 where:{
-                    userInfoName:$.trim($("#selectM input[name=userName]").val()),
-                    sex:$.trim($("#selectM input[name=sex]").val()),
-                    deptName:$.trim($("#selectM input[name=deptName]").val())
+                    lineno:$.trim($("#selectM input[name=lineno]").val()),
+
                 },
                 page:{
                     curr:1

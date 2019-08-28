@@ -28,17 +28,16 @@ public class LoginInterceptor implements Interceptor {
             System.out.println("登录成功");
             System.out.println("放行");
             return actionInvocation.invoke();
-        }else{
-            String username = (String) ServletActionContext.getRequest().getSession().getAttribute("username");
-            System.out.println(username);
-            if(username==null){
-                System.out.println("用户未登录");
-                return Action.LOGIN;
-            }else{
+       }else{
+//            String username = (String) ServletActionContext.getRequest().getSession().getAttribute("username");
+//            System.out.println(username);
+//            if(username==null){
+//                System.out.println("用户未登录");
+//                return Action.LOGIN;
+//            }else{
                 System.out.println("用户已登录");
                 //放行
                 return actionInvocation.invoke();
             }
-        }
     }
 }

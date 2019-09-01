@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: yan
@@ -68,7 +69,7 @@
                             </select>
                         </div>
                     </div>
-                    <p></p>
+                    <div style="height: 60px"></div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">终点站</label>
                         <div class="layui-input-block">
@@ -87,47 +88,35 @@
                 <form class="layui-form" action="">
                     <input type="hidden" name="userId"/>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">姓名</label>
+                        <label class="layui-form-label">线路ID</label>
                         <div class="layui-input-block">
-                            <input type="text" name="userName" required
-                                   lay-verify="required|question_content" placeholder="请输入姓名" autocomplete="off"
+                            <input type="text" name="lineid" required
+                                   lay-verify="required|question_content" placeholder="请输入线路ID" autocomplete="off"
                                    class="layui-input">
                         </div>
                     </div>
+
                     <div class="layui-form-item">
-                        <label class="layui-form-label">性别</label>
+                        <label class="layui-form-label">线路编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="sex" required lay-verify="required|answer"
-                                   placeholder="请输入性别" autocomplete="off" class="layui-input">
+                            <input type="text" name="lineno" required lay-verify="required|answer"
+                                   placeholder="请输入线路编号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">年龄</label>
+                        <label class="layui-form-label">线路名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="age" required lay-verify="required|answer"
-                                   placeholder="请输入年龄" autocomplete="off" class="layui-input">
+                            <%--<input type="text" name="linename" required lay-verify="required|answer"--%>
+                                   <%--placeholder="请输入线路名称" autocomplete="off" class="layui-input">--%>
+                            <select name="linename" id="line_name" lay-verify="required" lay-filter="addprov1"> </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">生日</label>
+                        <label class="layui-form-label">线路里程</label>
                         <div class="layui-input-block">
-                            <input type="text" name="birthday" required
-                                   lay-verify="required" placeholder="请输入生日" autocomplete="off"
+                            <input type="text" name="length" required
+                                   lay-verify="required" placeholder="请输入线路里程" autocomplete="off"
                                    class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">工资</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="sal" required lay-verify="required|answer"
-                                   placeholder="请输入工资" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">部门名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="deptName" required lay-verify="required|answer"
-                                   placeholder="请输入部门名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </form>
@@ -137,7 +126,25 @@
     </div>
 </div>
 <script type="text/javascript" src="layui/layui.js"></script>
+<script src="js/jquery.js"></script>
 <script type="text/javascript">
+    $(function () {
+        //填充线路名称
+        $.ajax({
+            url:"line_getAllLineName.action",
+            dataType:"json",
+            success:function (reponse){
+                var lineArr = reponse.lineList;
+                for(var i in lineArr){
+                    var line=lineArr[i];
+                    var $opt=$("<option value='"+line.linename+"' name='line_id'>"+line.linename+"</option>");
+                    $("#line_name").append($opt);
+                }
+            },
+            error:function (response) {
+                console.log("出现错误");
+            }
+        });
     layui.use(["table", "jquery", "layer", 'form', "laydate", "element"], function () {
         var layer = layui.layer;
         var laydate = layui.laydate;
@@ -193,7 +200,7 @@
                             var pname = $("#addDialog select[name=st]").val();
                             var pnames = $("#addDialog select[name=st1]").val();
                             $.ajax({
-                                url: "<%=path%>/line_pro.action",
+                                url: "<%=path%>/line_dbrc.action",
                                 type: "post",
                                 data: {
 
@@ -239,13 +246,11 @@
                 } else if (rows.length > 1) {
                     layer.alert("只能选中一行进行修改", {icon: 2});
                 } else {
-                    $("#updateDialog input[name=userId]").val(rows[0].userId);
-                    $("#updateDialog input[name=userName]").val(rows[0].userName);
-                    $("#updateDialog input[name=sex]").val(rows[0].sex);
-                    $("#updateDialog input[name=age]").val(rows[0].age);
-                    $("#updateDialog input[name=birthday]").val(rows[0].birthday);
-                    $("#updateDialog input[name=deptName]").val(rows[0].deptName);
-                    $("#updateDialog input[name=sal]").val(rows[0].sal);
+                    $("#updateDialog input[name=lineid]").val(rows[0].lineid);
+                    $("#updateDialog input[name=lineno]").val(rows[0].lineno);
+                    $("#updateDialog select[name=linename]").val(rows[0].linename);
+                    $("#updateDialog input[name=length]").val(rows[0].length);
+
                     layer.open({
                         type: 1,
                         title: "修改信息",
@@ -259,22 +264,17 @@
                         },
                         yes: function (layero, index) {
                             form.on('submit(update)', function (data) {
-                                var userId = $("#updateDialog input[name=userId]").val();
-                                var userName = $("#updateDialog input[name=userName]").val();
-                                var sex = $("#updateDialog input[name=sex]").val();
-                                var age = $("#updateDialog input[name=age]").val();
-                                var birthday = $("#updateDialog input[name=birthday]").val();
-                                var deptName = $("#updateDialog input[name=deptName]").val();
-                                var sal = $("#updateDialog input[name=sal]").val();
-                                $.post("<%=path%>/user_updateUserInfo.action",
+                                var lineid = $("#updateDialog input[name=lineid]").val();
+                                var lineno = $("#updateDialog input[name=lineno]").val();
+                                var linename = $("#updateDialog select[name=linename]").val();
+                                var length = $("#updateDialog input[name=length]").val();
+                                $.post("<%=path%>/line_updateProvince.action",
                                     {
-                                        userId: userId,
-                                        userName: userName,
-                                        sex: sex,
-                                        age: age,
-                                        birthday: birthday,
-                                        deptName: deptName,
-                                        sal: sal,
+                                        lineid: lineid,
+                                        lineno: lineno,
+                                        linename: linename,
+                                        length: length,
+
                                     }, function (data) {
                                         if (data.code == 0) {
                                             layer.alert(data.msg, {icon: 1});
@@ -291,7 +291,27 @@
                         }
                     });
                 }
+            }else if (object.event == 'delete') {
+                var checkStatus = table.checkStatus('table');
+                var rows = checkStatus.data;
+                if (rows.length == 0) {
+                    layer.alert("请选择需要删除的行", {icon: 2});
+                } else {
+                    var caridCar = rows[0].carid;
+                    layer.confirm("确认要删除吗，删除后不能恢复", { title: "删除确认" }, function (index) {
+                        $.post("{<%=path%>/line_deleteProvince.action", { caridCar: caridCar }, function (data)
+                        {
+                            var num = data.code==200 ? 1 : 2;
+                            layer.alert(data.msg,{icon:num,shade:0.3,offset: '40%',time:2000});
+                            setTimeout(function(){
+                                //刷新
+                                location.reload();
+                            },1000);
+                        });
+                    })
+                }
             }
+        });
         });
     });
 </script>

@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-    <package name="Users" extends="struts-default">
+    <package name="Users" namespace="/" extends="struts-default">
         <!--配置自定义的拦截器-->
         <interceptors>
             <!--interceptor 可以配置多个
@@ -41,12 +41,12 @@
             <!--<interceptor-ref name="defaultStack" />-->
         </action>
         <action name="sessionInvalidate" class="usersAction" method="sessionInvalidate"></action>
-        <action name="line_page" class="lineAction" method="page">
+
+       <!-- 查询 添加 修改-->
+        <action name="line_*" class="provinceAction" method="{1}">
             <result>line.jsp</result>
             <result name="input">index.jsp</result>
         </action>
-        <action name="line_pro" class="provinceAction" method="proAll">
-            <result>/line.jsp</result>
-        </action>
+
     </package>
 </struts>

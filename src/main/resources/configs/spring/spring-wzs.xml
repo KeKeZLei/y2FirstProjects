@@ -13,18 +13,6 @@
     <bean id="usersAction" class="com.accp.action.UsersAction">
         <property name="usersService" ref="usersService"></property>
     </bean>
-    <!--LineDao 的配置-->
-    <bean id="lineDao" class="com.accp.dao.impl.LineDaoImpl">
-        <property name="hibernateTemplate" ref="trMagger"></property>
-    </bean>
-    <bean id="lineService" class="com.accp.service.impl.LineServiceImpl">
-        <property name="lineDao" ref="lineDao"></property>
-    </bean>
-    <bean id="lineAction" class="com.accp.action.LineAction">
-        <property name="lineService" ref="lineService"></property>
-    </bean>
-
-
     <!--Province 配置-->
     <bean id="provinceDao" class="com.accp.dao.impl.ProvinceDaoImpl">
         <property name="hibernateTemplate" ref="trMagger"></property>

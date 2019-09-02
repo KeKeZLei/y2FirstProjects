@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-mapping PUBLIC
-    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.accp.pojo" auto-import="true">
 
     <class name="Line" table="line">
-        <id name="lineid" type="java.lang.Integer">
+        <id name="lineid" type="int">
             <column name="LINEID" sql-type="int(11)"/>
         </id>
-        <property name="lineno" type="java.lang.Integer">
+        <property name="lineno" type="int">
             <column name="LINENO" sql-type="int(11)"/>
         </property>
         <property name="linename" type="java.lang.String">
             <column name="LINENAME" sql-type="varchar(20)" length="20"/>
         </property>
-        <property name="length" type="java.lang.Integer">
+        <property name="length" type="int">
             <column name="LENGTH" sql-type="int(11)"/>
         </property>
     </class>

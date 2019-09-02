@@ -26,8 +26,8 @@ public class ProvinceServiceImpl implements ProvinceService {
      * @return
      */
     @Override
-    public int addProvince(Province province) {
-        return provinceDao.addProvince(province);
+    public int addProvince(Line line) {
+        return provinceDao.addProvince(line);
     }
 
     /**

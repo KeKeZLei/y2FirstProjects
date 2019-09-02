@@ -59,26 +59,30 @@
                  style="display: none; width: 420px; padding-top: 20px;">
                 <form class="layui-form" action="">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">出发点</label>
+                        <label class="layui-form-label">线路编号</label>
                         <div class="layui-input-block">
-                            <select name="st">
-                                <option>--请选择--</option>
-                                <c:forEach items="${list}" var="list">
-                                    <option>${list}</option>
-                                </c:forEach>
-                            </select>
+                            <input type="text" name="lineno" required
+                                   lay-verify="required|question_content" placeholder="请输入线路编号" autocomplete="off"
+                                   class="layui-input">
                         </div>
                     </div>
-                    <div style="height: 60px"></div>
+
                     <div class="layui-form-item">
-                        <label class="layui-form-label">终点站</label>
+                        <label class="layui-form-label">线路名称</label>
                         <div class="layui-input-block">
-                            <select name="st1">
-                                <option>--请选择--</option>
-                                <c:forEach items="${list}" var="list">
-                                    <option>${list}</option>
-                                </c:forEach>
+                            <select name="linename" id="linename" lsay-verify="required" lay-filter="addprov1" style="width: 50px">
+                            <option value="">请选择省份</option>
                             </select>
+
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">线路里程</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="length" required
+                                   lay-verify="required|question_content" placeholder="请输入线路里程" autocomplete="off"
+                                   class="layui-input">
                         </div>
                     </div>
                    </form>
@@ -145,6 +149,24 @@
                 console.log("出现错误");
             }
         });
+        $(function(){
+            //页面加载完毕后开始执行的事件
+            var city_json='{"江苏":["南京","常州"],"河南":["南阳","安阳"]}';
+            var city_obj=eval('('+city_json+')');
+            for (var key in city_obj)
+            {
+                $("#linename").append("<option value='"+key+"'>"+key+"</option>");
+            }
+            $("#linename").change(function(){
+                var now_province=$(this).val();
+                $("#city").html('<option value="">请选择城市</option>');
+                for(var k in city_obj[now_province])
+                {
+                    var now_city=city_obj[now_province][k];
+                    $("#city").append('<option value="'+now_city+'">'+now_city+'</option>');
+                }
+            });
+        });
     layui.use(["table", "jquery", "layer", 'form', "laydate", "element"], function () {
         var layer = layui.layer;
         var laydate = layui.laydate;
@@ -196,16 +218,16 @@
                     },
                     yes: function (layero, index) {
                         form.on('submit(add)', function (data) {
-
-                            var pname = $("#addDialog select[name=st]").val();
-                            var pnames = $("#addDialog select[name=st1]").val();
+                            var lineno = $("#addDialog input[name=lineno]").val();
+                            var linename = $("#addDialog select[name=linename]").val();
+                            var length = $("#addDialog input[name=length]").val();
                             $.ajax({
-                                url: "<%=path%>/line_dbrc.action",
+                                url: "<%=path%>/line_AddProvince.action",
                                 type: "post",
                                 data: {
-
-                                    pname: pname,
-                                    pname: pnames,
+                                    lineno:lineno,
+                                    linename:linename,
+                                    length:length
                                 },
                                 dataType: "json",
                                 success: function (data) {
@@ -297,16 +319,15 @@
                 if (rows.length == 0) {
                     layer.alert("请选择需要删除的行", {icon: 2});
                 } else {
-                    var caridCar = rows[0].carid;
-                    layer.confirm("确认要删除吗，删除后不能恢复", { title: "删除确认" }, function (index) {
-                        $.post("{<%=path%>/line_deleteProvince.action", { caridCar: caridCar }, function (data)
-                        {
-                            var num = data.code==200 ? 1 : 2;
-                            layer.alert(data.msg,{icon:num,shade:0.3,offset: '40%',time:2000});
-                            setTimeout(function(){
+                    var lineid = rows[0].lineid;
+                    layer.confirm("确认要删除吗，删除后不能恢复", {title: "删除确认"}, function (index) {
+                        $.post("{<%=path%>/line_deleteProvince.action", {lineid: lineid}, function (data) {
+                            var num = data.code == 200 ? 1 : 2;
+                            layer.alert(data.msg, {icon: num, shade: 0.3, offset: '40%', time: 2000});
+                            setTimeout(function () {
                                 //刷新
                                 location.reload();
-                            },1000);
+                            }, 1000);
                         });
                     })
                 }

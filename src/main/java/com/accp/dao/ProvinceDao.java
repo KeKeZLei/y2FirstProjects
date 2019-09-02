@@ -12,7 +12,7 @@ public interface ProvinceDao {
     //查询
     public List<Province> getProAll();
     //添加
-    public int addProvince(Province province);
+    public int addProvince(Line line);
     //修改
     public int updateProvince(Line line);
     //删除

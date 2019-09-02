@@ -50,8 +50,8 @@ public class ProvinceDaoImpl implements ProvinceDao {
      * @return
      */
     @Override
-    public int addProvince(Province province) {
-        return (int)this.hibernateTemplate.save(province);
+    public int addProvince(Line line) {
+        return (int)this.hibernateTemplate.save(line);
     }
     @Override
     public List<Line> findlist(final Map<String, Object> map) {
@@ -94,7 +94,9 @@ public class ProvinceDaoImpl implements ProvinceDao {
 
     @Override
     public int deleteProvince(int lineid) {
-        Line line = this.hibernateTemplate.get(Line.class, lineid);
+        Line line = new Line();
+        line.setLineid(lineid);
+        hibernateTemplate.delete(line);
         return 1;
     }
     //查询所有线路

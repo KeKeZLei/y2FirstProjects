@@ -102,10 +102,13 @@ public class ProvinceAction extends ActionSupport {
      * 添加
      */
     public String AddProvince() throws IOException {
-        Province province = new Province(provinced,pname);
         HashMap<String, Object> map = new HashMap<>();
+        Line line = new Line();
+        line.setLineno(lineno);
+        line.setLinename(linename);
+        line.setLength(length);
         try{
-            this.provinceService.addProvince(province);
+            int count = this.provinceService.addProvince(line);
             map.put("code",0);
             map.put("msg","添加成功...");
         }catch (Exception e){
@@ -154,7 +157,7 @@ public class ProvinceAction extends ActionSupport {
         Map map = new HashMap();
         System.out.println("map:"+map);
         try {
-            int count = this.provinceService.deleteProvince(lineno);
+            int count = this.provinceService.deleteProvince(lineid);
             System.out.println("count:"+count);
             map.put("code", 0);
             map.put("msg", "删除成功");

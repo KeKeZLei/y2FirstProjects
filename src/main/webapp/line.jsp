@@ -68,10 +68,20 @@
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">线路名称</label>
-                        <div class="layui-input-block">
-                            <select name="linename" id="linename" lsay-verify="required" lay-filter="addprov1" style="width: 50px">
+                    <label class="layui-form-label">从:</label>
+                    <div class="layui-input-block">
+                        <select name="lineStart" id="lineStart" lsay-verify="required" lay-filter="addprov1" style="width: 50px">
                             <option value="">请选择省份</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">到:</label>
+                        <div class="layui-input-block">
+                            <select name="lineTo" id="lineTo" lsay-verify="required" lay-filter="addprov1" style="width: 50px">
+                                <option value="">请选择省份</option>
                             </select>
 
                         </div>
@@ -149,24 +159,43 @@
                 console.log("出现错误");
             }
         });
-        $(function(){
-            //页面加载完毕后开始执行的事件
-            var city_json='{"江苏":["南京","常州"],"河南":["南阳","安阳"],"湖南":["南阳","安阳"],"广东":["南阳","安阳"],"北京":["南阳","安阳"],"上海":["南阳","安阳"],"深圳":["南阳","安阳"],"重庆":["南阳","安阳"]}';
-            var city_obj=eval('('+city_json+')');
-            for (var key in city_obj)
-            {
-                $("#linename").append("<option value='"+key+"'>"+key+"</option>");
-            }
-            $("#linename").change(function(){
-                var now_province=$(this).val();
-                $("#city").html('<option value="">请选择城市</option>');
-                for(var k in city_obj[now_province])
-                {
-                    var now_city=city_obj[now_province][k];
-                    $("#city").append('<option value="'+now_city+'">'+now_city+'</option>');
+    });
+        $(function () {
+            //填充线路名称
+            $.ajax({
+                url:"line_getCity.action",
+                dataType:"json",
+                success:function (reponse){
+                    var lineArr = reponse.listCity;
+                    for(var i in lineArr){
+                        var line=lineArr[i];
+                        var $opt=$("<option value='"+line.pname+"' name='line_id'>"+line.pname+"</option>");
+                        $("#lineStart").append($opt);
+                        // $("#lineTo").append($opt);
+                    }
+                },
+                error:function (response) {
+                    console.log("出现错误");
                 }
             });
         });
+            $(function () {
+                //填充线路名称
+                $.ajax({
+                    url:"line_getCity.action",
+                    dataType:"json",
+                    success:function (reponse){
+                        var lineArr = reponse.listCity;
+                        for(var i in lineArr){
+                            var line=lineArr[i];
+                            var $opt=$("<option value='"+line.pname+"' name='line_id'>"+line.pname+"</option>");
+                            $("#lineTo").append($opt);
+                        }
+                    },
+                    error:function (response) {
+                        console.log("出现错误");
+                    }
+                });
     layui.use(["table", "jquery", "layer", 'form', "laydate", "element"], function () {
         var layer = layui.layer;
         var laydate = layui.laydate;
@@ -193,7 +222,6 @@
             table.reload("table",{
                 where:{
                     userInfoName:$.trim($("#selectM input[name=linename]").val()),
-
                 },
                 page:{
                     curr:1
@@ -219,8 +247,11 @@
                     yes: function (layero, index) {
                         form.on('submit(add)', function (data) {
                             var lineno = $("#addDialog input[name=lineno]").val();
-                            var linename = $("#addDialog select[name=linename]").val();
+                            var linename = $("#addDialog select[name=lineStart]").val()+"-"+$("#addDialog select[name=lineTo]").val();
+                            var lineStart = $("#addDialog select[name=lineStart]").val();
+                            var lineTo = $("#addDialog select[name=lineTo]").val();
                             var length = $("#addDialog input[name=length]").val();
+                            // var name = linename+"_"+length;
                             $.ajax({
                                 url: "<%=path%>/line_AddProvince.action",
                                 type: "post",

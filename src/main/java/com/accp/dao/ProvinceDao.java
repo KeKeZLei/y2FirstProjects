@@ -17,6 +17,8 @@ public interface ProvinceDao {
     public int updateProvince(Line line);
     //删除
     public int deleteProvince(int lineid);
+    //获取城市
+    public List<Province> getCity();
     /**
      * 分页查询
      * 模糊查询

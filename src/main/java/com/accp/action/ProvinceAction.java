@@ -12,9 +12,7 @@ import org.apache.struts2.ServletActionContext;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProvinceAction extends ActionSupport {
     private int lineid;
@@ -170,6 +168,12 @@ public class ProvinceAction extends ActionSupport {
         response.getWriter().print(JSON.toJSONString(map));
         return null;
     }
+
+    /**
+     * 模糊查询
+     * @return
+     * @throws Exception
+     */
     public String page() throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);
@@ -205,4 +209,20 @@ public class ProvinceAction extends ActionSupport {
         writer.write(jsonObject.toString());
     }
 
+    /**
+     * 添加下拉框
+     * @throws IOException
+     */
+    public void getCity() throws IOException {
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setContentType("text/html;charset=utf-8");
+//        response.setContentType("textml;charset=utf-8");
+        PrintWriter writer = response.getWriter();
+        List<Province> list = provinceService.getCity();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("listCity",list);
+        //输出到 ajax 对象中
+        System.out.println(jsonObject.toString());
+        writer.write(jsonObject.toString());
+    }
 }

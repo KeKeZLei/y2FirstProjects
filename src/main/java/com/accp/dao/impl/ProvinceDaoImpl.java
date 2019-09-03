@@ -45,6 +45,17 @@ public class ProvinceDaoImpl implements ProvinceDao {
     }
 
     /**
+     * 获取城市
+     * @return
+     */
+    @Override
+    public List<Province> getCity() {
+        String hql = "from Province";
+        List<Province> list = (List<Province>)hibernateTemplate.find(hql);
+        return list;
+    }
+
+    /**
      * 添加
      * @param province
      * @return
@@ -53,6 +64,12 @@ public class ProvinceDaoImpl implements ProvinceDao {
     public int addProvince(Line line) {
         return (int)this.hibernateTemplate.save(line);
     }
+
+    /**
+     * 模糊查询
+     * @param map
+     * @return
+     */
     @Override
     public List<Line> findlist(final Map<String, Object> map) {
         List<Line> list = (List<Line>) this.hibernateTemplate.execute(new HibernateCallback<Object>() {
@@ -73,6 +90,12 @@ public class ProvinceDaoImpl implements ProvinceDao {
         });
         return list;
     }
+
+    /**
+     * 总数
+     * @param map
+     * @return
+     */
     @SuppressWarnings("unchecked")
     @Override
     public long count(final Map<String, Object> map) {

@@ -21,8 +21,17 @@ public class ProvinceServiceImpl implements ProvinceService {
     }
 
     /**
+     * 获取城市
+     * @return
+     */
+    @Override
+    public List<Province> getCity() {
+        return provinceDao.getCity();
+    }
+
+    /**
      * 添加
-     * @param province
+     * @param line
      * @return
      */
     @Override

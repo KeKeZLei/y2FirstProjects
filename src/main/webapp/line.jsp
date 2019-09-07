@@ -201,7 +201,7 @@
         var laydate = layui.laydate;
         var table = layui.table;
         var $ = layui.jquery;
-        var form = layui.form;
+        var form = layui.form;l
         var element = layui.element;
         table.render({
             elem: "#table",
@@ -221,7 +221,7 @@
         $("#search-btn").bind("click",function(){
             table.reload("table",{
                 where:{
-                    userInfoName:$.trim($("#selectM input[name=linename]").val()),
+                    linename:$.trim($("#selectM input[name=linename]").val()),
                 },
                 page:{
                     curr:1

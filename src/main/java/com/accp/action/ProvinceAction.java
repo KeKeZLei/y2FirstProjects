@@ -178,10 +178,10 @@ public class ProvinceAction extends ActionSupport {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);
         map.put("limit", limit);
-        System.out.println("线路编号："+userInfoName);
-        if(userInfoName != null && !userInfoName.equals("")){
+        System.out.println("线路编号："+linename);
+        if(linename != null && !linename.equals("")){
             System.out.println("模糊查询");
-            map.put("userInfoName","%"+userInfoName+"%");
+            map.put("linename","%"+linename+"%");
         }
         System.out.println("数据1"+map);
         Map<String, Object> map1 = this.provinceService.findMap(map);
